@@ -1,0 +1,37 @@
+{
+	"name": "backend-todo-app",
+	"version": "0.0.1",
+	"description": "todo app backend",
+	"author": "breno baldassim",
+	"type": "commonjs",
+	"devDependencies": {
+		"@types/bcrypt": "^5.0.2",
+		"@types/express": "^5.0.0",
+		"@types/jest": "^29.5.13",
+		"@types/jsonwebtoken": "^9.0.7",
+		"@types/node": "^16.11.10",
+		"jest": "^29.7.0",
+		"ts-jest": "^29.2.5",
+		"ts-node": "10.9.1",
+		"tsconfig-paths": "^4.2.0",
+		"typescript": "^5.6.3"
+	},
+	"dependencies": {
+		"bcrypt": "^5.1.1",
+		"class-transformer": "^0.5.1",
+		"class-validator": "^0.14.1",
+		"dotenv": "^16.4.5",
+		"express": "^4.21.1",
+		"jsonwebtoken": "^9.0.2",
+		"pg": "^8.13.0",
+		"reflect-metadata": "^0.1.14",
+		"typeorm": "^0.3.20"
+	},
+	"scripts": {
+		"test": "jest",
+		"start": "ts-node -r tsconfig-paths/register src/index.ts",
+		"typeorm": "typeorm-ts-node-commonjs",
+		"migration:run": "npm run typeorm migration:run -- -d ./src/data-source.ts",
+		"migration:revert": "npm run typeorm migration:revert -- -d ./src/data-source.ts"
+	}
+}

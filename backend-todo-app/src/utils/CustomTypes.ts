@@ -1,6 +1,7 @@
 import { UserServiceImpl } from '@src/services/impl/UserServiceImpl';
 import { AuthenticationUserService } from '@src/services/AuthenticationUserService';
+import { STATUS } from '@src/utils/constants';
 
 export type GenericService = UserServiceImpl | AuthenticationUserService;
 
-export type Status = 'in_progress' | 'done' | 'pending';
+export type Status = STATUS.PENDING | STATUS.DONE | STATUS.IN_PROGRESS;

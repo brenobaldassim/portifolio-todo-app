@@ -30,7 +30,8 @@ export class TodoRepository extends Repository<Todo> {
 
 	searchTodos(userId: number, page: number, limit: number, status?: string) {
 		return this.createQueryBuilder('todo')
-			.where('todo.status = :status AND todo.userId = :userId', { status, userId })
+			.where('todo.userId = :userId', { userId })
+			.where(status ? 'todo.status = :status' : 'TRUE', { status })
 			.orderBy('todo.createdAt', 'DESC')
 			.skip((page - 1) * limit)
 			.take(limit)

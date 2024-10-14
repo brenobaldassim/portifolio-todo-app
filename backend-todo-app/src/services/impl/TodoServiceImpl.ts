@@ -5,6 +5,7 @@ import { Todo } from '@src/entities/Todo';
 import { ToDoAppErrors } from '@src/utils/ToDoAppErrors';
 import { HttpStatusCodes } from '@src/utils/HttpStatusCodes';
 import { isIdValid, isStatusValid } from '@src/utils/utils';
+import { STATUS } from '@src/utils/constants';
 
 export class TodoServiceImpl implements TodoService {
 	protected readonly todoRepository: TodoRepository;
@@ -61,11 +62,7 @@ export class TodoServiceImpl implements TodoService {
 		isIdValid(userId);
 		if (status) isStatusValid(status);
 		let search: Partial<[Todo[], number]> = [[], 0];
-		if (!status) {
-			search = await this.todoRepository.searchTodos(userId, page, limit, 'active');
-		} else {
-			search = await this.todoRepository.searchTodos(userId, page, limit, status);
-		}
+		search = await this.todoRepository.searchTodos(userId, page, limit, status);
 
 		return search as [Todo[], number];
 	}

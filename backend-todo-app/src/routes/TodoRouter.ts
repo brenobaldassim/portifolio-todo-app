@@ -12,6 +12,6 @@ todoRouter.get('/search', todoController.searchTodo.bind(todoController));
 todoRouter.get('/:id', todoController.findById.bind(todoController));
 todoRouter.post('/', todoController.create.bind(todoController));
 todoRouter.delete('/:id', todoController.delete.bind(todoController));
-todoRouter.patch('/:id', todoController.update.bind(todoController));
+todoRouter.put('/:id', todoController.update.bind(todoController));
 
 export { todoRouter };

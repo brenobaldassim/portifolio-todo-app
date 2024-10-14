@@ -5,6 +5,7 @@ import { HttpStatusCodes } from '@src/utils/HttpStatusCodes';
 import { ToDoAppErrors } from './ToDoAppErrors';
 import { Status } from './CustomTypes';
 import { plainToInstance } from 'class-transformer';
+import { STATUS } from './constants';
 
 export function retriveToken(token: string): string {
 	const posicaoToken = 1;
@@ -52,7 +53,7 @@ export function isIdValid(id: number) {
 }
 
 export function isStatusValid(status: string): status is Status {
-	const isValid: boolean = status === 'in_progress' || status === 'done' || status === 'pending';
+	const isValid: boolean = status === STATUS.IN_PROGRESS || status === STATUS.DONE || status === STATUS.PENDING;
 	if (!isValid) throw new ToDoAppErrors(HttpStatusCodes.BAD_REQUEST, 'Status not valid');
 	return isValid;
 }

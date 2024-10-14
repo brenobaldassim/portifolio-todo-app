@@ -3,6 +3,7 @@ import { validate } from 'class-validator';
 import { Searchpagination } from '@src/utils/CustomRequest';
 import { HttpStatusCodes } from '@src/utils/HttpStatusCodes';
 import { ToDoAppErrors } from './ToDoAppErrors';
+import { Status } from './CustomTypes';
 import { plainToInstance } from 'class-transformer';
 
 export function retriveToken(token: string): string {
@@ -47,5 +48,11 @@ export function isIdValid(id: number) {
 	if (!id) throw new ToDoAppErrors(HttpStatusCodes.NOT_FOUND, 'Id not found');
 	else if (isNaN(id)) throw new ToDoAppErrors(HttpStatusCodes.BAD_REQUEST, 'Id not valid');
 
+	return isValid;
+}
+
+export function isStatusValid(status: string): status is Status {
+	const isValid: boolean = status === 'in_progress' || status === 'done' || status === 'pending';
+	if (!isValid) throw new ToDoAppErrors(HttpStatusCodes.BAD_REQUEST, 'Status not valid');
 	return isValid;
 }

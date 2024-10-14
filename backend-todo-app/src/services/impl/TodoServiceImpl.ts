@@ -4,7 +4,7 @@ import { DeleteResult } from 'typeorm';
 import { Todo } from '@src/entities/Todo';
 import { ToDoAppErrors } from '@src/utils/ToDoAppErrors';
 import { HttpStatusCodes } from '@src/utils/HttpStatusCodes';
-import { isIdValid } from '@src/utils/utils';
+import { isIdValid, isStatusValid } from '@src/utils/utils';
 
 export class TodoServiceImpl implements TodoService {
 	protected readonly todoRepository: TodoRepository;
@@ -37,6 +37,7 @@ export class TodoServiceImpl implements TodoService {
 		} else if (!todo.title) {
 			throw new ToDoAppErrors(HttpStatusCodes.BAD_REQUEST, 'Todo has no title');
 		}
+		isStatusValid(todo.status);
 
 		return await this.todoRepository.save(todo);
 	}
@@ -52,11 +53,13 @@ export class TodoServiceImpl implements TodoService {
 			throw new ToDoAppErrors(HttpStatusCodes.NOT_FOUND, 'todo empty');
 		}
 		isIdValid(todo.id);
+		if (newTodo.status) isStatusValid(newTodo.status);
 		this.todoRepository.merge(todo, newTodo);
 		return await this.todoRepository.save(todo);
 	}
 	async searchTodo(userId: number, page: number, limit: number, status?: string): Promise<[Todo[], number]> {
 		isIdValid(userId);
+		if (status) isStatusValid(status);
 		let search: Partial<[Todo[], number]> = [[], 0];
 		if (!status) {
 			search = await this.todoRepository.searchTodos(userId, page, limit, 'active');

@@ -11,8 +11,30 @@ To run the application application go to backend and frontend folders and then r
     -   Backend Setup
     -   Frontend Setup
 -   Usage
--   API Documentation
 
-## 📸 Screenshots
+## 📷 Screenshots
 
-Coming soon!
+![alt text](image.png)
+![alt text](image-1.png)
+
+## 😀 Usage
+
+After doing all the installation and configs, to run this project you must run:
+
+1. containers up for database:
+
+```bash
+    docker-compose up -d
+```
+
+2. backend folder:
+
+```bash
+    npm run start
+```
+
+3. frontend folder:
+
+```bash
+    npm run start
+```

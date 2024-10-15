@@ -19,10 +19,16 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
     ```bash
      npm run start
      or
+     npm run android
+     or
      npx expo start
     ```
 
-In the output, you'll find options to open the app in a
+3. If web
+    ```bash
+       localhost:8081
+    ```
+    In the output, you'll find options to open the app in a
 
 -   [development build](https://docs.expo.dev/develop/development-builds/introduction/)
 -   [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)

@@ -21,6 +21,8 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
      or
      npm run android
      or
+     npx react-native run-android
+     or
      npx expo start
     ```
 

@@ -3,6 +3,18 @@ export enum Status {
 	IN_PROGRESS = 'in_progress',
 }
 
+export enum StatusSearch {
+	ALL = '',
+	DONE = 'done',
+	IN_PROGRESS = 'in_progress',
+}
+
+export const StatusMap = {
+	All: '',
+	Done: 'done',
+	'In Progress': 'in_progress',
+};
+
 function isStatusValid(status: string): string {
 	if (status.length === 0) return 'Status not valid, must not be empty';
 	else if (status !== Status.IN_PROGRESS && status !== Status.DONE) return 'Status not valid option';
@@ -22,7 +34,11 @@ function isDescriptionValid(description: string): string {
 }
 
 function formatStatustext(status: string): string {
-	return status === Status.DONE ? 'Done' : 'In Progress';
+	Object.entries(StatusMap).forEach(([key, value]) => {
+		if (status === value) status = key;
+	});
+
+	return status;
 }
 
 export { isTitleValid, isStatusValid, formatStatustext, isDescriptionValid };

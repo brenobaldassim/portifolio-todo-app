@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 	flatList: {
 		width: '100%',
 		minHeight: '60%',
-		marginTop: 70,
+		marginTop: 0,
 		flex: 1,
 	},
 	loadingSpinner: {

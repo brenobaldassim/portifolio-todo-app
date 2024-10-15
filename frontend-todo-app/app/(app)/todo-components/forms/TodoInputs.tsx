@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
 import { TextInput } from 'react-native-gesture-handler';
 import { Status } from '../../utils/utils';
 import GLOBAL_STYLYING, { PLACEHOLDER_COLOR, ERROR_COLOR } from '../../utils/styles';
-import { formatStatustext } from '../../utils/utils';
+import StatusDropdown from '../forms/StatusDropDown';
 import React from 'react';
 
 interface Props {
@@ -20,33 +19,7 @@ const TodoInputs: React.FC<Props> = ({ title, description, status, errors, setTi
 	return (
 		<View style={styles.container}>
 			<View style={styles.dropdownContainer}>
-				<SelectDropdown
-					defaultValue={status}
-					data={Object.values(Status)}
-					onSelect={(item) => setStatus(item)}
-					renderButton={(selectedItem) => {
-						return (
-							<View style={[styles.dropdown, GLOBAL_STYLYING.button_color]}>
-								{selectedItem ? (
-									<Text style={[styles.textDropdown, GLOBAL_STYLYING.text_color_white]}>
-										{formatStatustext(selectedItem)}
-									</Text>
-								) : (
-									<Text>{formatStatustext(status)}</Text>
-								)}
-							</View>
-						);
-					}}
-					renderItem={(item) => {
-						return (
-							<View style={[styles.dropdownOptions, GLOBAL_STYLYING.button_color]}>
-								<Text style={[styles.textDropdown, GLOBAL_STYLYING.text_color_white]}>
-									{formatStatustext(item)}
-								</Text>
-							</View>
-						);
-					}}
-				/>
+				<StatusDropdown status={status} setStatus={setStatus} values={Status} />
 			</View>
 			{errors.status && <Text style={styles.error}>{errors.status}</Text>}
 			<TextInput
@@ -65,7 +38,7 @@ const TodoInputs: React.FC<Props> = ({ title, description, status, errors, setTi
 				secureTextEntry={false}
 				multiline={true}
 				numberOfLines={10}
-				maxLength={300}
+				maxLength={120}
 				onChangeText={(text) => setDescription(text)}
 				value={description}
 			/>

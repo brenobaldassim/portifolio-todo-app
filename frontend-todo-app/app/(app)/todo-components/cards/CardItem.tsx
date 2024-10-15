@@ -21,7 +21,9 @@ const CardItem: React.FC<Props> = ({ todo }) => {
 			description: todo.description,
 			title: todo.title,
 		});
-		result.then((response) => alert(response.message));
+		result.then((response) => {
+			alert(response.message);
+		});
 	}
 
 	useEffect(() => {

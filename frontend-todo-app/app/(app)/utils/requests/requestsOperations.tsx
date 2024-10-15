@@ -100,6 +100,7 @@ export const fetchTodo = async (config: genericTodoFetchConfig) => {
 		if (!config.id) result = await getTodosBySearchRequest(config.search || {});
 		else result = await getTodoByIdRequest(config.id);
 		config.setData(result.data);
+		return result;
 	} catch (error) {
 		console.error(error);
 		config.setError('Failed to fetch todo');

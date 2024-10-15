@@ -17,6 +17,31 @@ interface Props {
 const TodoInputs: React.FC<Props> = ({ title, description, status, errors, setTitle, setDescription, setStatus }) => {
 	return (
 		<View>
+			<View style={styles.dropdown}>
+				<SelectDropdown
+					defaultValue={status}
+					data={Object.values(Status)}
+					onSelect={(item) => setStatus(item)}
+					renderButton={(selectedItem) => {
+						return (
+							<View style={styles.dropdown}>
+								{selectedItem ? (
+									<Text style={styles.textDropdown}>{selectedItem}</Text>
+								) : (
+									<Text>{status}</Text>
+								)}
+							</View>
+						);
+					}}
+					renderItem={(item) => {
+						return (
+							<View style={styles.dropdownOptions}>
+								<Text style={styles.textDropdown}>{item}</Text>
+							</View>
+						);
+					}}
+				/>
+			</View>
 			<TextInput
 				placeholder='Todo Title'
 				placeholderTextColor={'blue'}
@@ -26,16 +51,6 @@ const TodoInputs: React.FC<Props> = ({ title, description, status, errors, setTi
 				value={title}
 			/>
 			{errors.title && <Text style={{ color: 'red' }}>{errors.title}</Text>}
-			<SelectDropdown
-				data={Object.values(Status)}
-				onSelect={(item) => setStatus(item)}
-				renderButton={(selectedItem) => {
-					return <View>{selectedItem ? <Text>{selectedItem}</Text> : <Text>{status}</Text>}</View>;
-				}}
-				renderItem={(item) => {
-					return <Text>{item}</Text>;
-				}}
-			/>
 			{errors.status && <Text style={{ color: 'red' }}>{errors.status}</Text>}
 			<TextInput
 				placeholder='Todo Description'
@@ -60,16 +75,42 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 24,
+		marginTop: 12,
+		marginBottom: 4,
+		padding: 10,
 		fontWeight: 'bold',
 	},
 	description: {
 		minHeight: 150,
+		padding: 10,
 		fontSize: 16,
 		lineHeight: 24,
 		marginTop: 12,
 		marginBottom: 12,
 	},
 	delete: {
-		marginTop: 12,
+		marginTop: 10,
+	},
+	dropdown: {
+		flex: 1,
+		paddingLeft: 10,
+		paddingRight: 10,
+		paddingTop: 5,
+		paddingBottom: 5,
+		borderRadius: 8,
+		alignSelf: 'flex-start',
+		backgroundColor: 'blue',
+		minWidth: 100,
+	},
+	dropdownOptions: {
+		paddingLeft: 10,
+		paddingRight: 10,
+		paddingTop: 10,
+		paddingBottom: 10,
+		backgroundColor: 'blue',
+	},
+	textDropdown: {
+		color: 'white',
+		textAlign: 'center',
 	},
 });

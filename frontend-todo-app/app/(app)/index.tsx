@@ -1,68 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { Button, View, StyleSheet, ActivityIndicator, Text } from 'react-native';
-import { router, Stack } from 'expo-router';
-import { Search } from './utils/requests/requestsOperations';
-import { fetchTodo } from './utils/requests/requestsOperations';
-import { FlatList } from 'react-native-gesture-handler';
-import CardItem from './todo-components/cards/CardItem';
+// src/screens/Home.tsx
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Stack } from 'expo-router';
+import TodoList from './todo-components/list/TodoList';
+import AddTodoButton from './todo-components/buttons/AddTodoButton';
+import useTodos from './utils/hooks/useTodos';
 
 const Home = () => {
-	const [todos, setTodos] = useState<any[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | null>(null);
-	const [search, setSearch] = useState<Search>({ limit: 10, page: 1, status: '' });
+	const { todos, loading, error, loadMoreTodos, isFetchingMore } = useTodos();
 
-	function handleAddPress() {
-		router.push('/addTodo');
-	}
-	useEffect(() => {
-		fetchTodo({ setData: setTodos, setLoading, setError, search });
-	}, []);
-
-	if (loading) return <ActivityIndicator style={styles.loadingSpinner} size='large' color='#0000ff' />;
-	if (error) return <Text>Error: {error}</Text>;
-	if (!todos) return <Text>No todo data available</Text>;
 	return (
-		<>
+		<View style={styles.body}>
 			<Stack.Screen options={{ title: 'TodoApp', headerShown: true }} />
 			<View style={styles.wrapper}>
-				<View style={styles.button}>
-					<Button title='Add Todo' onPress={handleAddPress}></Button>
-				</View>
-				<FlatList
-					style={styles.flatList}
-					data={todos}
-					renderItem={({ item }) => <CardItem todo={item} />}
-				></FlatList>
+				<TodoList
+					todos={todos}
+					loading={loading}
+					error={error}
+					loadMoreTodos={loadMoreTodos}
+					isFetchingMore={isFetchingMore}
+				/>
+				<AddTodoButton />
 			</View>
-		</>
+		</View>
 	);
 };
 
 const styles = StyleSheet.create({
-	form: {
-		marginTop: 100,
-		padding: 20,
-		width: '100%',
-		minHeight: 600,
-	},
-	flatList: {
-		width: '100%',
-		marginTop: 70,
+	body: {
+		flex: 1,
+		backgroundColor: '#25292e',
 	},
 	wrapper: {
 		width: '100%',
 		padding: 20,
 		flex: 1,
-	},
-	button: {
-		width: '30%',
-		position: 'absolute',
-		right: 20,
-		top: 20,
-	},
-	loadingSpinner: {
-		marginTop: 100,
 	},
 });
 

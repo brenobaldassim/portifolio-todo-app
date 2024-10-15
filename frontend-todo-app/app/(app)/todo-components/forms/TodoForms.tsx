@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Button } from 'react-native';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Stack } from 'expo-router';
-import SubmitButton from '../buttons/SubmitButton';
 import { isStatusValid, isTitleValid } from '../../utils/utils';
 import { Status } from '../../utils/utils';
 import TodoInputs from './TodoInputs';
@@ -13,13 +13,13 @@ interface Props {
 	itemDescription?: string;
 	itemStatus?: string;
 	id?: number;
-	fetchFunction: (todo: Todo) => void;
+	fetchFunction: (todo: Todo) => Promise<any>;
 }
 
 const TodoForms: React.FC<Props> = ({ itemTitle, itemDescription, itemStatus, id, fetchFunction }) => {
 	const [title, setTitle] = useState<string>(itemTitle || '');
 	const [description, setDescription] = useState<string>(itemDescription || '');
-	const [status, setStatus] = useState<string>(itemStatus || Status.PENDING);
+	const [status, setStatus] = useState<string>(itemStatus || Status.IN_PROGRESS);
 	const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 	const validateForm = () => {
@@ -33,13 +33,12 @@ const TodoForms: React.FC<Props> = ({ itemTitle, itemDescription, itemStatus, id
 
 	const handleSubmit = async () => {
 		if (validateForm()) {
-			fetchFunction({ id, title, description, status });
+			const result = fetchFunction({ id, title, description, status });
+			result.then((response) => alert(response.message)).finally(() => router.replace('/'));
 		}
 	};
 
-	useEffect(() => {
-		console.log('onform', { title, description, status });
-	}, [title, description, status]);
+	useEffect(() => {}, [title, description, status]);
 	return (
 		<View style={styles.container}>
 			<>
@@ -53,7 +52,7 @@ const TodoForms: React.FC<Props> = ({ itemTitle, itemDescription, itemStatus, id
 					setDescription={setDescription}
 					setStatus={setStatus}
 				/>
-				<SubmitButton handleSubmit={handleSubmit} />
+				<Button title='Submit' onPress={handleSubmit} />
 			</>
 		</View>
 	);

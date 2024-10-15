@@ -53,7 +53,7 @@ export function isIdValid(id: number) {
 }
 
 export function isStatusValid(status: string): status is Status {
-	const isValid: boolean = status === STATUS.IN_PROGRESS || status === STATUS.DONE || status === STATUS.PENDING;
+	const isValid: boolean = status === STATUS.IN_PROGRESS || status === STATUS.DONE;
 	if (!isValid) throw new ToDoAppErrors(HttpStatusCodes.BAD_REQUEST, 'Status not valid');
 	return isValid;
 }

@@ -4,4 +4,4 @@ import { STATUS } from '@src/utils/constants';
 
 export type GenericService = UserServiceImpl | AuthenticationUserService;
 
-export type Status = STATUS.PENDING | STATUS.DONE | STATUS.IN_PROGRESS;
+export type Status = STATUS.DONE | STATUS.IN_PROGRESS;

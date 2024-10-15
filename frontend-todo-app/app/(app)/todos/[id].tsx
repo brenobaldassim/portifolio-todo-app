@@ -21,7 +21,7 @@ const todo = () => {
 	if (error) return <Text>Error: {error}</Text>;
 	if (!todo) return <Text>No todo data available</Text>;
 	return (
-		<View style={styles.container}>
+		<View style={styles.body}>
 			<DeleteButton id={todo?.id} />
 			<TodoForms
 				itemTitle={todo?.title}
@@ -38,7 +38,9 @@ const styles = StyleSheet.create({
 	loadingSpinner: {
 		marginTop: 100,
 	},
-	container: {
+	body: {
+		flex: 1,
+		backgroundColor: '#25292e',
 		padding: 20,
 	},
 	title: {

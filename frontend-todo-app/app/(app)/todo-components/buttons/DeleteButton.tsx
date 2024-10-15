@@ -1,6 +1,9 @@
-import { Button, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { deleteTodoRequest } from '../../utils/requests/requestsOperations';
+import { router } from 'expo-router';
 import React from 'react';
+import { DeleteTodoXml } from '../../utils/xmls';
+import { SvgXml } from 'react-native-svg';
 
 interface Props {
 	id: number;
@@ -8,13 +11,14 @@ interface Props {
 
 const DeleteButton: React.FC<Props> = ({ id }) => {
 	const handleDelete = async () => {
-		deleteTodoRequest(id);
+		const result = deleteTodoRequest(id);
+		result.then((response) => alert(response.message)).finally(() => router.replace('/'));
 	};
 	return (
 		<View style={styles.deleteButtonWrapper}>
-			<View style={styles.deleteButton}>
-				<Button title='Delete' color={'red'} onPress={handleDelete}></Button>
-			</View>
+			<Pressable style={styles.deleteButton} onPress={handleDelete}>
+				<SvgXml xml={DeleteTodoXml} width='100%' height='100%' />
+			</Pressable>
 		</View>
 	);
 };
@@ -30,6 +34,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 	},
 	deleteButton: {
-		width: '25%',
+		width: 50,
+		height: 50,
+		borderRadius: 50,
+		borderWidth: 1,
+		borderColor: 'red',
+		justifyContent: 'center',
+		alignItems: 'center',
+		alignSelf: 'flex-end',
+		padding: 10,
 	},
 });

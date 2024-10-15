@@ -1,22 +1,46 @@
 import { StyleSheet, Text, View } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import { Link } from 'expo-router';
-import { Todo } from '../../utils/requests/requestsOperations';
-import React from 'react';
+import { Todo, updateTodoRequest } from '../../utils/requests/requestsOperations';
+import { Status } from '../../utils/utils';
+import React, { useEffect } from 'react';
 
 interface Props {
 	todo: Todo;
 }
 
 const CardItem: React.FC<Props> = ({ todo }) => {
+	const [isSelected, setIsSelected] = React.useState(false);
+
+	function handleCheckboxChange() {
+		setIsSelected(!isSelected);
+		const newStatus = isSelected ? Status.IN_PROGRESS : Status.DONE;
+		const result = updateTodoRequest({
+			id: todo.id,
+			status: newStatus,
+			description: todo.description,
+			title: todo.title,
+		});
+		result.then((response) => alert(response.message));
+	}
+
+	useEffect(() => {
+		setIsSelected(todo.status === Status.DONE);
+	}, []);
 	return (
-		<Link key={todo.id} href={`/todos/${todo.id}`} style={styles.link}>
-			<View style={styles.card}>
-				<View style={styles.cardHead}>
+		<View style={isSelected ? [styles.card, styles.cardSelected] : [styles.card, styles.cardNotSelected]}>
+			<View style={styles.cardHead}>
+				<Checkbox
+					style={styles.checkbox}
+					color={isSelected ? '#4630EB' : undefined}
+					value={isSelected}
+					onValueChange={handleCheckboxChange}
+				/>
+				<Link key={todo.id} href={`/todos/${todo.id}`} style={styles.link}>
 					<Text style={styles.title}>{todo.title}</Text>
-					<Text>{todo.status}</Text>
-				</View>
+				</Link>
 			</View>
-		</Link>
+		</View>
 	);
 };
 
@@ -25,12 +49,13 @@ export default CardItem;
 const styles = StyleSheet.create({
 	card: {
 		flex: 1,
-		minHeight: 100,
 		width: '100%',
 		justifyContent: 'center',
+		borderColor: '#CCC',
+		borderWidth: 1,
 		marginTop: 8,
 		borderRadius: 8,
-		padding: 12,
+		padding: 15,
 		backgroundColor: '#fff',
 	},
 	title: {
@@ -39,10 +64,16 @@ const styles = StyleSheet.create({
 	},
 	cardHead: {
 		flex: 1,
-		justifyContent: 'space-between',
+		gap: 8,
 		alignItems: 'center',
 		flexDirection: 'row',
 		width: '100%',
+	},
+	cardSelected: {
+		backgroundColor: 'grey',
+	},
+	cardNotSelected: {
+		backgroundColor: '#fff',
 	},
 	description: {
 		minHeight: 40,
@@ -51,5 +82,9 @@ const styles = StyleSheet.create({
 	link: {
 		width: '100%',
 	},
-	status: {},
+	checkbox: {
+		borderWidth: 1,
+		borderColor: '#CCC',
+		borderRadius: 20,
+	},
 });

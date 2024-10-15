@@ -1,7 +1,8 @@
 import { Text } from 'react-native';
-import { Redirect, Stack } from 'expo-router';
-
+import { Redirect, Stack, Tabs } from 'expo-router';
+import { StyleSheet } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+import { View } from 'react-native';
 
 export default function AppLayout() {
 	const { authState } = useAuth();
@@ -14,5 +15,27 @@ export default function AppLayout() {
 		return <Redirect href='/login' />;
 	}
 
-	return <Stack />;
+	return (
+		<View style={styles.container}>
+			<Stack
+				screenOptions={{
+					headerStyle: {
+						backgroundColor: '#25292e',
+					},
+					headerTintColor: '#fff',
+					headerShadowVisible: false,
+					headerTitleStyle: {
+						fontWeight: 'bold',
+					},
+				}}
+			/>
+		</View>
+	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#25292e',
+	},
+});

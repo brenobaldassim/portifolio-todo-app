@@ -83,7 +83,7 @@ export class TodoController {
 		try {
 			const userId: number = (request as AuthenticatedRequest).user?.id ?? 0;
 			const searchQuery: SearchQuery = request.query as SearchQuery;
-			const { status, limit = '1', page = '10' } = searchQuery;
+			const { status, limit = 0, page = 0 } = searchQuery;
 
 			const pageNumber = parseInt(page as string, 10);
 			const limitNumber = parseInt(limit as string, 10);

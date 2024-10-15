@@ -3,12 +3,26 @@ export enum Status {
 	IN_PROGRESS = 'in_progress',
 }
 
-function isStatusValid(status: string): status is Status {
-	return status === Status.IN_PROGRESS || status === Status.DONE;
+function isStatusValid(status: string): string {
+	if (status.length === 0) return 'Status not valid, must not be empty';
+	else if (status !== Status.IN_PROGRESS && status !== Status.DONE) return 'Status not valid option';
+	return '';
 }
 
-function isTitleValid(title: string): boolean {
-	return title.length > 0;
+function isTitleValid(title: string): string {
+	if (title.length === 0) return 'Title not valid, must not be empty';
+	else if (title.length > 20) return 'Title not valid, must not be longer than 20 characters';
+	else return '';
 }
 
-export { isTitleValid, isStatusValid };
+function isDescriptionValid(description: string): string {
+	if (description.length === 0) return '';
+	else if (description.length > 100) return 'Description not valid, must not be longer than 100 characters';
+	return '';
+}
+
+function formatStatustext(status: string): string {
+	return status === Status.DONE ? 'Done' : 'In Progress';
+}
+
+export { isTitleValid, isStatusValid, formatStatustext, isDescriptionValid };

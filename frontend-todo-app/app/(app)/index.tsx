@@ -5,12 +5,13 @@ import { Stack } from 'expo-router';
 import TodoList from './todo-components/list/TodoList';
 import AddTodoButton from './todo-components/buttons/AddTodoButton';
 import useTodos from './utils/hooks/useTodos';
+import GLOBAL_STYLYING from './utils/styles';
 
 const Home = () => {
 	const { todos, loading, error, loadMoreTodos, isFetchingMore } = useTodos();
 
 	return (
-		<View style={styles.body}>
+		<View style={[styles.body, GLOBAL_STYLYING.bg_color]}>
 			<Stack.Screen options={{ title: 'TodoApp', headerShown: true }} />
 			<View style={styles.wrapper}>
 				<TodoList
@@ -29,10 +30,11 @@ const Home = () => {
 const styles = StyleSheet.create({
 	body: {
 		flex: 1,
-		backgroundColor: '#25292e',
+		position: 'relative',
 	},
 	wrapper: {
 		width: '100%',
+		minHeight: 600,
 		padding: 20,
 		flex: 1,
 	},

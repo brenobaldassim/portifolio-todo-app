@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Stack } from 'expo-router';
-import { isStatusValid, isTitleValid } from '../../utils/utils';
+import { isDescriptionValid, isStatusValid, isTitleValid } from '../../utils/utils';
 import { Status } from '../../utils/utils';
 import TodoInputs from './TodoInputs';
 import { Todo } from '../../utils/requests/requestsOperations';
+import SubmitTodoButton from '../buttons/SubmitTodoButton';
 
 interface Props {
 	itemTitle?: string;
@@ -21,24 +22,30 @@ const TodoForms: React.FC<Props> = ({ itemTitle, itemDescription, itemStatus, id
 	const [description, setDescription] = useState<string>(itemDescription || '');
 	const [status, setStatus] = useState<string>(itemStatus || Status.IN_PROGRESS);
 	const [errors, setErrors] = useState<{ [key: string]: string }>({});
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
 
 	const validateForm = () => {
 		let errors: { [key: string]: string } = {};
-		if (!isStatusValid(status)) errors['status'] = 'Status not valid';
-		if (!isTitleValid(title)) errors['title'] = 'Title not valid';
+		errors['status'] = isStatusValid(status);
+		errors['title'] = isTitleValid(title);
+		errors['description'] = isDescriptionValid(description);
 
 		setErrors(errors);
-		return Object.keys(errors).length === 0;
+		return Object.keys(errors).every((key) => errors[key] === '');
 	};
 
 	const handleSubmit = async () => {
-		if (validateForm()) {
+		if (!isButtonDisabled && validateForm()) {
 			const result = fetchFunction({ id, title, description, status });
 			result.then((response) => alert(response.message)).finally(() => router.replace('/'));
 		}
 	};
 
-	useEffect(() => {}, [title, description, status]);
+	useEffect(() => {
+		const isFormValid = validateForm();
+		setIsButtonDisabled(!isFormValid);
+	}, [title, description, status]);
+
 	return (
 		<View style={styles.container}>
 			<>
@@ -52,7 +59,7 @@ const TodoForms: React.FC<Props> = ({ itemTitle, itemDescription, itemStatus, id
 					setDescription={setDescription}
 					setStatus={setStatus}
 				/>
-				<Button title='Submit' onPress={handleSubmit} />
+				<SubmitTodoButton disabled={isButtonDisabled} handleSubmit={handleSubmit} />
 			</>
 		</View>
 	);

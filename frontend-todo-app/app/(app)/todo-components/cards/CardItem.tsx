@@ -32,7 +32,7 @@ const CardItem: React.FC<Props> = ({ todo }) => {
 			<View style={styles.cardHead}>
 				<Checkbox
 					style={styles.checkbox}
-					color={isSelected ? '#4630EB' : undefined}
+					color={isSelected ? 'black' : undefined}
 					value={isSelected}
 					onValueChange={handleCheckboxChange}
 				/>
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 		justifyContent: 'center',
 		borderColor: '#CCC',
+		marginBottom: 10,
 		borderWidth: 1,
 		marginTop: 8,
 		borderRadius: 8,
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 	cardSelected: {
-		backgroundColor: 'grey',
+		backgroundColor: '#c9c9c9',
 	},
 	cardNotSelected: {
 		backgroundColor: '#fff',

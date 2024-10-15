@@ -4,6 +4,7 @@ import { Pressable, Text, View, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import { SvgXml } from 'react-native-svg';
 import { AddTodoXml } from '../../utils/xmls';
+import GLOBAL_STYLYING from '../../utils/styles';
 
 const AddTodoButton: React.FC = () => {
 	const handleAddPress = () => {
@@ -12,7 +13,7 @@ const AddTodoButton: React.FC = () => {
 
 	return (
 		<View style={styles.wrapper}>
-			<Pressable style={styles.button} onPress={handleAddPress}>
+			<Pressable style={[styles.button, GLOBAL_STYLYING.button_color]} onPress={handleAddPress}>
 				<SvgXml xml={AddTodoXml} width='100%' height='100%' />
 			</Pressable>
 		</View>
@@ -21,10 +22,9 @@ const AddTodoButton: React.FC = () => {
 
 const styles = StyleSheet.create({
 	button: {
-		width: 50,
-		height: 50,
-		backgroundColor: 'blue',
-		borderRadius: 50,
+		width: 60,
+		height: 60,
+		borderRadius: 60,
 		justifyContent: 'center',
 		alignItems: 'center',
 		color: 'white',
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
 	wrapper: {
 		width: '100%',
 		marginTop: 20,
-		marginBottom: 20,
 	},
 });
 

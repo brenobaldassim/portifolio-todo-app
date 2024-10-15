@@ -28,10 +28,10 @@ export class TodoRepository extends Repository<Todo> {
 			.getMany();
 	}
 
-	searchTodos(userId: number, page: number, limit: number, status?: string, skip?: number) {
+	searchTodos(userId: number, limit: number, status?: string, skip?: number) {
 		return this.createQueryBuilder('todo')
 			.where('todo.userId = :userId', { userId })
-			.where(status ? 'todo.status = :status' : 'TRUE', { status })
+			.andWhere(status ? 'todo.status = :status' : 'TRUE', { status })
 			.orderBy('todo.createdAt', 'DESC')
 			.skip(skip)
 			.take(limit)

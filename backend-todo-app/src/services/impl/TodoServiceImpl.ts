@@ -64,7 +64,7 @@ export class TodoServiceImpl implements TodoService {
 		let search: Partial<[Todo[], number]> = [[], 0];
 		let skip: number = (page - 1) * limit;
 		if (isNaN(skip) || skip < 0) skip = 0;
-		search = await this.todoRepository.searchTodos(userId, page, limit, status, skip);
+		search = await this.todoRepository.searchTodos(userId, limit, status, skip);
 
 		return search as [Todo[], number];
 	}

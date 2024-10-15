@@ -5,6 +5,7 @@ import DeleteButton from '../todo-components/buttons/DeleteButton';
 import { useLocalSearchParams } from 'expo-router';
 import TodoForms from '../todo-components/forms/TodoForms';
 import { updateTodoRequest, fetchTodo } from '../utils/requests/requestsOperations';
+import GLOBAL_STYLYING from '../utils/styles';
 
 const todo = () => {
 	const params = useLocalSearchParams();
@@ -21,7 +22,7 @@ const todo = () => {
 	if (error) return <Text>Error: {error}</Text>;
 	if (!todo) return <Text>No todo data available</Text>;
 	return (
-		<View style={styles.body}>
+		<View style={[styles.body, GLOBAL_STYLYING.bg_color]}>
 			<DeleteButton id={todo?.id} />
 			<TodoForms
 				itemTitle={todo?.title}
